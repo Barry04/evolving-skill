@@ -38,7 +38,7 @@ description: >-
 
 | 内容 | 位置 | 说明 |
 |------|------|------|
-| evolving-skill 协议 | `~/.cursor/skills/evolving-skill/` 或 `~/.claude/skills/evolving-skill/` | `install.ps1` / `install.sh` 安装，跨项目通用 |
+| evolving-skill 协议 | `~/.codex/skills/evolving-skill/`、`~/.cursor/skills/evolving-skill/` 或 `~/.claude/skills/evolving-skill/` | `install.ps1` / `install.sh` 安装，跨项目通用 |
 | 生成 / 演化的 Skill | **当前项目根** `skill/<name>/` | 随项目 Git 版本管理 |
 | 项目 Agent 索引 | **当前项目根** `AGENTS.md` | 有新 Skill 时更新索引 |
 

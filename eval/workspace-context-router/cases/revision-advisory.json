@@ -1,0 +1,19 @@
+{
+  "id": "revision-advisory",
+  "skill": "workspace-context-router",
+  "input": "项目可能登记 release 分支和版本，但这些字段不应该必填。",
+  "context": "The current checkout may differ from the optional expected revision.",
+  "expected": [
+    "revision.branch",
+    "revision.version",
+    "均可选",
+    "禁止自动切换分支",
+    "expected/actual"
+  ],
+  "forbidden": [
+    "自动 checkout",
+    "revision 必填"
+  ],
+  "score_points": 5,
+  "tags": ["git", "branch", "version"]
+}

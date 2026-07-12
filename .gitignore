@@ -8,6 +8,7 @@ Desktop.ini
 .idea/tasks.xml
 .idea/shelf/
 .vscode/
+.mimocode/
 
 # Logs and temp files
 *.log

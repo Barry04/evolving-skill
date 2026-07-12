@@ -140,6 +140,7 @@ jobs:
           Set-StrictMode -Version Latest
           $ErrorActionPreference = "Stop"
           $toolDirs = @(
+            "$env:USERPROFILE\.codex\skills",
             "$env:USERPROFILE\.cursor\skills",
             "$env:USERPROFILE\.claude\skills"
           )
@@ -187,7 +188,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          TOOL_DIRS=("$HOME/.cursor/skills" "$HOME/.claude/skills")
+          TOOL_DIRS=("$HOME/.codex/skills" "$HOME/.cursor/skills" "$HOME/.claude/skills")
           for dir in skill/*/; do
             name=$(basename "$dir")
             for tool in "${TOOL_DIRS[@]}"; do
@@ -231,7 +232,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          TOOL_DIRS=("$HOME/.cursor/skills" "$HOME/.claude/skills")
+          TOOL_DIRS=("$HOME/.codex/skills" "$HOME/.cursor/skills" "$HOME/.claude/skills")
           for dir in skill/*/; do
             name=$(basename "$dir")
             for tool in "${TOOL_DIRS[@]}"; do

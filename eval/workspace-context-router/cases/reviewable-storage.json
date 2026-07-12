@@ -1,0 +1,18 @@
+{
+  "id": "reviewable-storage",
+  "skill": "workspace-context-router",
+  "input": "路由信息必须方便人审查，不要使用 SQLite。",
+  "context": "All persistent routing knowledge must remain readable and diffable.",
+  "expected": [
+    "禁止 SQLite",
+    "可审查",
+    "自动发现只输出 proposal",
+    "禁止静默修改 Manifest"
+  ],
+  "forbidden": [
+    "使用 SQLite 缓存",
+    "自动写入 workspace.yaml"
+  ],
+  "score_points": 4,
+  "tags": ["storage", "review", "manifest"]
+}

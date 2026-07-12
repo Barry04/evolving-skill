@@ -23,6 +23,7 @@
 | java-backend-troubleshooting | `skill/java-backend-troubleshooting/SKILL.md` | Java / Spring / MyBatis 排错 |
 | linux-test-executor | `skill/linux-test-executor/SKILL.md` | 远程 Linux 测试、SSH 部署验证 |
 | project-to-harness-skill | `skill/project-to-harness-skill/SKILL.md` | 任意项目 → Harness 文档 + `skills/`（资格化、登记、preview-first） |
+| workspace-context-router | `skill/workspace-context-router/SKILL.md` | 多项目/多模块请求定位；按 Manifest 路由项目、模块与上下文 |
 | skillopt-adapter | `skill/skillopt-adapter/SKILL.md` | SkillOpt 优化 / benchmark / regression / proposal 审查 |
 
 新增 Skill 后更新本表。
@@ -52,7 +53,7 @@ skill/
 
 ## 安装
 
-将全部 Skill 装到本机 Cursor / Claude Skills 目录：
+将全部 Skill 装到本机 Codex / Cursor / Claude Skills 目录：
 
 | 平台 | 命令 |
 |------|------|

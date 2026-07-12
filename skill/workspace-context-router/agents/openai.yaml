@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workspace Context Router"
+  short_description: "Route requests across repositories and modules"
+  default_prompt: "Use $workspace-context-router to resolve this request to the correct project and module before reading project context."

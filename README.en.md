@@ -18,7 +18,7 @@ Not a single skill, knowledge base, or RAG platform — a versioned **collection
 - At most **2** skills per task
 - Saves only after user confirmation ([evolving-skill](skill/evolving-skill/SKILL.md))
 - SkillOpt produces offline eval/proposal artifacts; it never overwrites formal skills directly
-- `install.ps1` / `install.sh` install **all** skills to Cursor / Claude
+- `install.ps1` / `install.sh` install **all** skills to Codex / Cursor / Claude
 
 ---
 
@@ -26,7 +26,7 @@ Not a single skill, knowledge base, or RAG platform — a versioned **collection
 
 ### evolving-skill — evolution protocol (global install, project writes)
 
-- **Protocol** → `~/.cursor/skills/`, `~/.claude/skills/` (via install)
+- **Protocol** → `~/.codex/skills/`, `~/.cursor/skills/`, `~/.claude/skills/` (via install)
 - **Generated / evolved skills** → **current project** `skill/<name>/`
 
 → [skill/evolving-skill/SKILL.md](skill/evolving-skill/SKILL.md)
@@ -36,6 +36,14 @@ Not a single skill, knowledge base, or RAG platform — a versioned **collection
 Turn any project (new, active, legacy, open-source) into `AGENTS.md`, `docs/harness/`, and project `skills/`. Preview-first; no app source or build/deploy changes.
 
 → [skill/project-to-harness-skill/SKILL.md](skill/project-to-harness-skill/SKILL.md)
+
+### workspace-context-router — multi-project context routing
+
+Resolve a request to the correct repository and module from a human-reviewable
+`workspace.yaml`, then load only the returned project context. Discovery emits
+reviewable proposals; no SQLite database or automatic branch switching.
+
+→ [skill/workspace-context-router/SKILL.md](skill/workspace-context-router/SKILL.md)
 
 ### java-backend-troubleshooting — Java backend debugging
 

@@ -1,0 +1,110 @@
+version: 1
+
+workspace:
+  name: commerce-platform
+  # 可选：仅作为 discover 的扫描提示；项目位置以 projects.<id>.root 为准。
+  roots:
+    - ${WORKSPACE_HOME}
+  context:
+    entrypoints:
+      - AGENTS.md
+    docs:
+      - docs/workspace-architecture.md
+
+projects:
+  order-service:
+    root: ${WORKSPACE_HOME}/order-service
+    aliases:
+      - 订单
+      - 订单中心
+    keywords:
+      - 下单
+      - 取消订单
+    # 整段可选。Router 只比较并提示，不自动切换分支或修改版本。
+    revision:
+      branch: release/2026.07
+      version: "2.4.0"
+      version_file: pom.xml
+    context:
+      entrypoints:
+        - AGENTS.md
+      docs:
+        - docs/harness/architecture.md
+        - docs/harness/commands.md
+      skills:
+        - skill/order-workflow/SKILL.md
+    modules:
+      payment:
+        path: modules/payment
+        aliases:
+          - 支付
+          - 退款处理
+        keywords:
+          - 原路退回
+          - 退款状态
+        context:
+          entrypoints:
+            - AGENTS.md
+          docs:
+            - docs/refund.md
+      order-core:
+        path: modules/order-core
+        aliases:
+          - 订单核心
+
+  audit-service:
+    root: ${WORKSPACE_HOME}/audit-service
+    aliases:
+      - 审计服务
+    # revision 未配置时仍可正常路由。
+    context:
+      entrypoints:
+        - AGENTS.md
+    modules:
+      event-consumer:
+        path: modules/event-consumer
+        aliases:
+          - 审计消费
+        keywords:
+          - 退款事件
+
+  notification-service:
+    root: ${WORKSPACE_HOME}/notification-service
+    aliases:
+      - 通知服务
+    revision:
+      # 只配置版本文件时，Router 可报告检测值，但不做期望版本比较。
+      version_file: package.json
+    modules:
+      refund-message:
+        path: packages/refund-message
+        aliases:
+          - 退款通知
+
+# 可选覆盖层：不是 Module 的子层，只提供跨项目影响候选。
+capabilities:
+  refund:
+    aliases:
+      - 退款
+      - 退单
+    keywords:
+      - 退款申请
+      - 退款完成
+    context:
+      docs:
+        - docs/capabilities/refund.md
+    evidence:
+      - order-service/docs/harness/refund-flow.md
+    targets:
+      - ref: order-service/payment
+        role: owner
+        evidence:
+          - order-service/modules/payment/docs/refund.md
+      - ref: audit-service/event-consumer
+        role: participant
+        evidence:
+          - audit-service/docs/events/refund-created.md
+      - ref: notification-service/refund-message
+        role: observer
+        evidence:
+          - notification-service/packages/refund-message/README.md

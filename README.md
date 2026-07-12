@@ -18,7 +18,7 @@
 - Agent 每次任务最多选 **2** 个高相关 Skill
 - 新经验须**用户确认**后才写入（规则见 [evolving-skill](skill/evolving-skill/SKILL.md)）
 - SkillOpt 只做离线评测 / 优化 proposal，不直接覆盖正式 Skill
-- 运行 `install.ps1` / `install.sh` 可一次安装**全部** Skill 到 Cursor / Claude
+- 运行 `install.ps1` / `install.sh` 可一次安装**全部** Skill 到 Codex / Cursor / Claude
 
 ---
 
@@ -28,7 +28,7 @@
 
 **何时用：** 任何项目里需要沉淀、合并、演进 Skill 时。
 
-- **协议本身** → 安装到 `~/.cursor/skills/`、`~/.claude/skills/`（跨项目）
+- **协议本身** → 安装到 `~/.codex/skills/`、`~/.cursor/skills/`、`~/.claude/skills/`（跨项目）
 - **生成 / 演化的 Skill** → 写在**当前项目** `skill/<name>/`，并更新项目 `AGENTS.md`
 
 不负责具体业务排错，而是管「怎么发现经验、怎么问用户、怎么落到项目里」。
@@ -44,6 +44,16 @@
 只读扫描 → 知识发现 → 资格化评分 → 生成 `AGENTS.md`、`docs/harness/`、项目级 `skills/`。默认先预览，用户确认后才写入；不改业务源码与构建/部署配置。
 
 → [skill/project-to-harness-skill/SKILL.md](skill/project-to-harness-skill/SKILL.md)
+
+---
+
+### workspace-context-router — 多项目上下文路由
+
+**何时用：** 同时维护多个仓库或模块，用户不想反复提供项目名、模块名和磁盘路径时。
+
+以可人工审查的 `workspace.yaml` 登记项目、模块、别名和可选 revision；Router 先返回项目/模块及上下文入口，再按需读取项目 Harness。自动发现只生成候选，不使用 SQLite，不自动切换分支。
+
+→ [skill/workspace-context-router/SKILL.md](skill/workspace-context-router/SKILL.md)
 
 ---
 
@@ -90,9 +100,10 @@ SkillOpt 输出必须先进 `experiments/skillopt/` 和 `proposals/`；正式 `s
 ## 它们如何配合
 
 ```text
-全局（install.ps1 / install.sh 安装到 ~/.cursor/skills 等）
+全局（install.ps1 / install.sh 安装到 ~/.codex/skills 等）
   ├─ evolving-skill              → 演进协议
   ├─ project-to-harness-skill  → 项目 Harness 化
+  ├─ workspace-context-router  → 多仓库 / 多模块上下文路由
   ├─ skillopt-adapter          → SkillOpt 优化 proposal / regression
   ├─ java-backend-troubleshooting
   ├─ linux-test-executor
@@ -117,7 +128,7 @@ git clone https://github.com/Barry04/ai-skill-repository.git
 cd ai-skill-repository
 ```
 
-安装**全部** Skill 到 Cursor / Claude：
+安装**全部** Skill 到 Codex / Cursor / Claude：
 
 | 平台 | 命令（在仓库根目录或解压后的包根目录执行） |
 |------|------|
@@ -133,8 +144,8 @@ cd ai-skill-repository
 推送 `skill/` 或安装脚本变更到 `master` 时，[package-and-install-skills](.github/workflows/package-and-install-skills.yml) 流水线会：
 
 1. **分别打包** — Windows 包：`skill/` + `install.ps1`；Unix 包：`skill/` + `install.sh`（无 `scripts/` 目录）
-2. **Windows** — 解压后执行 `.\install.ps1`，安装到 `%USERPROFILE%\.cursor\skills` 与 `%USERPROFILE%\.claude\skills`
-3. **macOS / Linux** — 解压后执行 `bash install.sh`，安装到 `~/.cursor/skills` 与 `~/.claude/skills`
+2. **Windows** — 解压后执行 `.\install.ps1`，安装到 `%USERPROFILE%\.codex\skills`、`%USERPROFILE%\.cursor\skills` 与 `%USERPROFILE%\.claude\skills`
+3. **macOS / Linux** — 解压后执行 `bash install.sh`，安装到 `~/.codex/skills`、`~/.cursor/skills` 与 `~/.claude/skills`
 
 在 GitHub **Actions** 页下载对应平台 Artifact，解压后在包根目录执行：
 
@@ -161,6 +172,7 @@ skill/
   evolving-skill/
   skillopt-adapter/
   project-to-harness-skill/
+  workspace-context-router/    # 含 references/、scripts/、assets/、agents/
   java-backend-troubleshooting/
   linux-test-executor/         # 含 references/、tools/、assets/
   read-wiki-via-mcp/           # 含 scripts/、agents/

@@ -1,0 +1,19 @@
+{
+  "id": "capability-safety",
+  "skill": "workspace-context-router",
+  "input": "退款能力关联 payment、audit 和 mq，帮我定位修改范围。",
+  "context": "A Capability may span projects and modules, but relationships still require code validation.",
+  "expected": [
+    "影响候选覆盖层",
+    "不代表所有目标都必须修改",
+    "目标全限定 ID",
+    "先验证调用关系和实际影响",
+    "不是自动加载清单"
+  ],
+  "forbidden": [
+    "无需验证即可修改全部目标",
+    "Capability 是 Module 的子层"
+  ],
+  "score_points": 5,
+  "tags": ["capability", "impact", "safety"]
+}

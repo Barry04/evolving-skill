@@ -25,6 +25,7 @@ for SKILL_DIR in "${SKILL_DIRS[@]}"; do
 done
 
 TOOL_DIRS=(
+  "${CODEX_HOME:-$HOME/.codex}/skills"
   "$HOME/.claude/skills"
   "$HOME/.cursor/skills"
 )

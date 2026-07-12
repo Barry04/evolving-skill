@@ -25,7 +25,9 @@ foreach ($skill in $skillDirs) {
 }
 
 $homeDir = [Environment]::GetFolderPath("UserProfile")
+$codexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $homeDir ".codex" }
 $toolDirs = @(
+    (Join-Path $codexHome "skills"),
     (Join-Path $homeDir ".claude\skills"),
     (Join-Path $homeDir ".cursor\skills")
 )

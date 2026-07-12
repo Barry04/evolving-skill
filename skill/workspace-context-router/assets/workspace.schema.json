@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Barry04/ai-skill-repository/blob/master/skill/workspace-context-router/assets/workspace.schema.json",
+  "title": "Workspace Context Router Manifest",
+  "description": "Human-reviewable workspace routing manifest. Cross-reference and filesystem checks require the semantic validator.",
+  "type": "object",
+  "required": [
+    "version",
+    "workspace",
+    "projects"
+  ],
+  "properties": {
+    "version": {
+      "const": 1,
+      "description": "Manifest schema major version."
+    },
+    "workspace": {
+      "$ref": "#/$defs/workspace"
+    },
+    "projects": {
+      "type": "object",
+      "description": "Project registry keyed by project-local stable ID.",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/$defs/id"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/project"
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "description": "Optional cross-project and cross-module capability overlay.",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/$defs/id"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/capability"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$",
+      "description": "Stable lowercase identifier using ASCII letters, digits, dot, underscore, or hyphen."
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rootPath": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Project or discovery root. Environment placeholders such as ${WORKSPACE_HOME} are allowed."
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "allOf": [
+        {
+          "not": {
+            "pattern": "^(?:[A-Za-z]:[\\\\/]|[\\\\/])"
+          }
+        },
+        {
+          "not": {
+            "pattern": "(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)"
+          }
+        }
+      ],
+      "description": "Scope-relative path that cannot be absolute or contain a parent traversal segment."
+    },
+    "stringSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "relativePathSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/relativePath"
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Lazy-load navigation paths; this object is an index, not a place for knowledge prose.",
+      "minProperties": 1,
+      "properties": {
+        "entrypoints": {
+          "$ref": "#/$defs/relativePathSet"
+        },
+        "docs": {
+          "$ref": "#/$defs/relativePathSet"
+        },
+        "skills": {
+          "$ref": "#/$defs/relativePathSet"
+        }
+      },
+      "additionalProperties": false
+    },
+    "workspace": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "roots": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/rootPath"
+          }
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        }
+      },
+      "additionalProperties": false
+    },
+    "revision": {
+      "type": "object",
+      "description": "Optional expected revision context. It is validation-only and never authorizes checkout or version writes.",
+      "minProperties": 1,
+      "properties": {
+        "branch": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "version_file": {
+          "$ref": "#/$defs/relativePath"
+        }
+      },
+      "additionalProperties": false
+    },
+    "moduleMap": {
+      "type": "object",
+      "description": "Modules keyed by an ID unique only within the containing project.",
+      "minProperties": 1,
+      "propertyNames": {
+        "$ref": "#/$defs/id"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/module"
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "root"
+      ],
+      "properties": {
+        "root": {
+          "$ref": "#/$defs/rootPath"
+        },
+        "aliases": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "keywords": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "revision": {
+          "$ref": "#/$defs/revision"
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        },
+        "modules": {
+          "$ref": "#/$defs/moduleMap"
+        }
+      },
+      "additionalProperties": false
+    },
+    "module": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "aliases": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "keywords": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        }
+      },
+      "additionalProperties": false
+    },
+    "qualifiedModuleRef": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?/[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?$",
+      "description": "Fully qualified project-id/module-id reference. Existence is checked by the semantic validator."
+    },
+    "evidenceSet": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "ref",
+        "role"
+      ],
+      "properties": {
+        "ref": {
+          "$ref": "#/$defs/qualifiedModuleRef"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "owner",
+            "participant",
+            "observer"
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidenceSet"
+        }
+      },
+      "additionalProperties": false
+    },
+    "capability": {
+      "type": "object",
+      "required": [
+        "targets"
+      ],
+      "properties": {
+        "aliases": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "keywords": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/target"
+          }
+        },
+        "context": {
+          "$ref": "#/$defs/context"
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidenceSet"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

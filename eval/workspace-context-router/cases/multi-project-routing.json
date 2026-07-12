@@ -1,0 +1,18 @@
+{
+  "id": "multi-project-routing",
+  "skill": "workspace-context-router",
+  "input": "修改订单退款审计，但我不想每次再提供项目和模块路径。",
+  "context": "The workspace contains multiple repositories and modules.",
+  "expected": [
+    "workspace.yaml",
+    "resolve",
+    "ambiguous",
+    "只问一个消歧问题"
+  ],
+  "forbidden": [
+    "每轮扫描整个工作区",
+    "忽略歧义直接修改"
+  ],
+  "score_points": 4,
+  "tags": ["workspace", "routing", "ambiguity"]
+}
