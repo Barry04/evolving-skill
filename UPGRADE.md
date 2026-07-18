@@ -97,10 +97,14 @@ SkillOpt 是离线优化 / 评测层，不是正式记录系统。正式 Skill �
 | java-backend-troubleshooting | Java / Spring / MyBatis 排错规则 |
 | linux-test-executor | 远程 Linux 测试、SSH 部署验证、日志采集 |
 | project-to-harness-skill | 目标项目生成 Harness 文档 + `skills/` + `skill-registry.md`；见 `skill/project-to-harness-skill/references/` |
+| cross-project-requirement | 建立多项目职责地图；实施前确认同名分支；编排跨仓影响、兼容顺序和四层验证 |
 | read-wiki-via-mcp | 通过本地 Atlassian MCP 读取、创建、更新 Confluence / wiki 页面 |
 | workspace-context-router | 通过可审查的 `workspace.yaml` 将多项目/多模块请求路由到项目、模块和上下文入口 |
 | skillopt-adapter | SkillOpt 优化、benchmark、regression、proposal 审查；正式 Skill 仍需用户确认后合并 |
+
 `project-to-harness-skill` 负责 Harness 化、AGENTS.md、Skill 索引和项目级 Skill 生成。
+
+`cross-project-requirement` 负责在多个已存在项目之上建立工作区级地图，并据此实施跨项目需求。
 
 ## 历史迁移
 

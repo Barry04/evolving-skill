@@ -45,6 +45,12 @@ reviewable proposals; no SQLite database or automatic branch switching.
 
 → [skill/workspace-context-router/SKILL.md](skill/workspace-context-router/SKILL.md)
 
+### cross-project-requirement — cross-repository feature orchestration
+
+Build an evidence-backed project/module responsibility map, align branch names before concurrent multi-repo development, order compatible contract changes, and verify the full path.
+
+→ [skill/cross-project-requirement/SKILL.md](skill/cross-project-requirement/SKILL.md)
+
 ### java-backend-troubleshooting — Java backend debugging
 
 Spring transaction rollback, MyBatis pagination, and related Java service issues.
@@ -115,4 +121,4 @@ If skills rarely trigger, check `AGENTS.md` first, then strengthen each `SKILL.m
 
 ## License
 
-[MIT](LICENSE)
+[Apache License 2.0](LICENSE)

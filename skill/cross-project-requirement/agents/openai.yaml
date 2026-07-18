@@ -1,0 +1,4 @@
+interface:
+  display_name: "跨项目需求编排"
+  short_description: "Map projects, align branches, orchestrate cross-repo changes"
+  default_prompt: "Use $cross-project-requirement to map this workspace and plan a requirement across its projects and modules."
